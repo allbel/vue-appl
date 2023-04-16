@@ -1,32 +1,45 @@
 <template>
   <tr>
-    <td>{{applicant.name}}</td>
-    <td>{{applicant.date.split('-').reverse().join('.')}}</td>
-    <td :class="getTdClass(applicant.color)">
-      {{applicant.rus}}
-    </td>
-    <td :class="getTdClass(applicant.color)">
-      {{applicant.math}}
-    </td>
-    <td :class="getTdClass(applicant.color)">
-      {{applicant.inf}}
-    </td>
-    <td :class="getTdClass(applicant.color)">
-      {{applicant.sum}}
+    <td>
+      <span>ФИО</span>
+      <span>{{applicant.name}}</span>
     </td>
     <td>
-      <div class="circle">
-        <svg>
-          <circle cx="20" cy="20" r="18"></circle>
-          <circle cx="20" cy="20" r="18"
-                  :style="{ strokeDashoffset: 'calc(114 - (114 * ' + applicant.percent + ') / 100)' }"
-                  :class="getCircleClass(applicant.color)"
-          ></circle>
-        </svg>
-        <div class="number">
-          {{applicant.percent + '%'}}
+      <span>Дата подачи заявления</span>
+      <span>{{applicant.date.split('-').reverse().join('.')}}</span>
+    </td>
+    <td :class="getTdClass(applicant.color)">
+      <span>Балл по русскому</span>
+      <span>{{applicant.rus}}</span>
+    </td>
+    <td :class="getTdClass(applicant.color)">
+      <span>Балл по математике</span>
+      <span>{{applicant.math}}</span>
+    </td>
+    <td :class="getTdClass(applicant.color)">
+      <span>Балл по информатике</span>
+      <span>{{applicant.inf}}</span>
+    </td>
+    <td :class="getTdClass(applicant.color)">
+      <span>Суммарный балл</span>
+      <span>{{applicant.sum}}</span>
+    </td>
+    <td>
+      <span>Процент</span>
+      <span>
+        <div class="circle">
+          <svg>
+            <circle cx="20" cy="20" r="18"></circle>
+            <circle cx="20" cy="20" r="18"
+                    :style="{ strokeDashoffset: 'calc(114 - (114 * ' + applicant.percent + ') / 100)' }"
+                    :class="getCircleClass(applicant.color)"
+            ></circle>
+          </svg>
+          <div class="number">
+            {{applicant.percent + '%'}}
+          </div>
         </div>
-      </div>
+      </span>
     </td>
   </tr>
 </template>
@@ -75,10 +88,38 @@ td {
   border-bottom-width: 4px;
   border-bottom-color: $color-blue-super-light;
   @include normalText($color-black);
+
+  @media screen and (max-width: 767px) {
+    display: flex;
+    align-items: center;
+    border-bottom-width: 1px;
+    border-color: $color-blue-super-light;
+    padding: 10px 12px;
+  }
+
+  & span {
+    &:first-child {
+      display: none;
+      flex-basis: 155px;
+
+      @media screen and (max-width: 767px) {
+        display: inline-block;
+        @include captionBoldText($color-medium);
+      }
+    }
+    &:last-child {
+      flex-grow: 1;
+      width: 50%;
+    }
+  }
 }
 
 td:last-child {
   text-align: center;
+
+  @media screen and (max-width: 767px) {
+    text-align: left;
+  }
 }
 
 .green {

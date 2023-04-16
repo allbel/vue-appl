@@ -1,6 +1,8 @@
 <template>
-  <img src="@/assets/arrow-bottom.png" alt="bottom" v-if="flag">
-  <img src="@/assets/arrow-top.png" alt="top" v-else>
+  <span class="arrows">
+    <img src="@/assets/arrow-bottom.png" alt="bottom" v-if="flag">
+    <img src="@/assets/arrow-top.png" alt="top" v-else>
+  </span>
 </template>
 
 <script>
@@ -9,3 +11,10 @@ export default {
   props: ['flag']
 }
 </script>
+
+<style lang="scss">
+.arrows {
+  position: absolute;
+  right: -9px;
+}
+</style>

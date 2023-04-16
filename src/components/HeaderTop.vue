@@ -40,6 +40,14 @@ export default {
   padding: 20px 60px;
   background-color: $color-white;
 
+  @media screen and (max-width: 1366px) {
+    padding: 20px 40px;
+  }
+
+  @media screen and (max-width: 767px) {
+    padding: 20px 12px;
+  }
+
   .logo {
     display: flex;
     align-items: center;

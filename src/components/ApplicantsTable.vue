@@ -229,11 +229,24 @@ export default {
 .table {
   text-align: center;
   border-collapse: collapse;
-  white-space: nowrap;
+
+  @media screen and (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+tr {
+  @media screen and (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 th {
   padding: 10px 20px;
+  white-space: nowrap;
   @include captionBoldText($color-blue);
 
   &:first-child {
@@ -241,9 +254,12 @@ th {
     width: 100%;
   }
 
-  & span:hover {
-    color: $color-blue-dark;
-    cursor: pointer;
+  & span {
+    position: relative;
+    &:hover {
+      color: $color-blue-dark;
+      cursor: pointer;
+    }
   }
 }
 

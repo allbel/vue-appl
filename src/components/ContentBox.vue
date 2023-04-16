@@ -211,9 +211,21 @@ export default {
   padding: 48px 60px 60px;
   background-color: $color-blue-super-light;
 
+  @media screen and (max-width: 1366px) {
+    padding: 36px 40px 40px;
+  }
+
+  @media screen and (max-width: 767px) {
+    padding: 20px 12px 12px;
+  }
+
   & h1 {
     @include titleH1($color-black);
     margin-bottom: 20px;
+
+    @media screen and (max-width: 767px) {
+      margin-bottom: 16px;
+    }
   }
 }
 

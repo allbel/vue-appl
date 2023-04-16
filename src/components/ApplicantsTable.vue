@@ -3,50 +3,52 @@
     <div class="searchBox">
       <input type="text" v-model="searchText" @input="filterByName" class="searchField" placeholder="Поиск">
     </div>
-    <table class="table">
-      <tr>
-        <th>
-          <span @click="sortColumn('name')">
-            ФИО <ArrowToggle v-bind:flag="sortOrder.name === 'asc'" />
-          </span>
-        </th>
-        <th>
-          <span @click="sortColumn('date')">
-            Дата подачи заявления <ArrowToggle v-bind:flag="sortOrder.date === 'asc'" />
-          </span>
-        </th>
-        <th>
-          <span @click="sortColumn('rus')">
-            Балл по русскому <ArrowToggle v-bind:flag="sortOrder.rus === 'asc'" />
-          </span>
-        </th>
-        <th>
-          <span @click="sortColumn('math')">
-            Балл по математике <ArrowToggle v-bind:flag="sortOrder.math === 'asc'" />
-          </span>
-        </th>
-        <th>
-          <span @click="sortColumn('inf')">
-            Балл по информатике <ArrowToggle v-bind:flag="sortOrder.inf === 'asc'" />
-          </span>
-        </th>
-        <th>
-          <span @click="sortColumn('sum')">
-            Суммарный балл <ArrowToggle v-bind:flag="sortOrder.sum === 'asc'" />
-          </span>
-        </th>
-        <th>
-          <span @click="sortColumn('percent')">
-            Процент <ArrowToggle v-bind:flag="sortOrder.percent === 'asc'" />
-          </span>
-        </th>
-      </tr>
-      <ApplicantsRow
-        v-for="applicant of filteredApplicants"
-        v-bind:applicant="applicant"
-        v-bind:key="applicant.id"
-      />
-    </table>
+    <div class="tableBox">
+      <table class="table">
+        <tr>
+          <th>
+            <span @click="sortColumn('name')">
+              ФИО <ArrowToggle v-bind:flag="sortOrder.name === 'asc'" />
+            </span>
+          </th>
+          <th>
+            <span @click="sortColumn('date')">
+              Дата подачи заявления <ArrowToggle v-bind:flag="sortOrder.date === 'asc'" />
+            </span>
+          </th>
+          <th>
+            <span @click="sortColumn('rus')">
+              Балл по русскому <ArrowToggle v-bind:flag="sortOrder.rus === 'asc'" />
+            </span>
+          </th>
+          <th>
+            <span @click="sortColumn('math')">
+              Балл по математике <ArrowToggle v-bind:flag="sortOrder.math === 'asc'" />
+            </span>
+          </th>
+          <th>
+            <span @click="sortColumn('inf')">
+              Балл по информатике <ArrowToggle v-bind:flag="sortOrder.inf === 'asc'" />
+            </span>
+          </th>
+          <th>
+            <span @click="sortColumn('sum')">
+              Суммарный балл <ArrowToggle v-bind:flag="sortOrder.sum === 'asc'" />
+            </span>
+          </th>
+          <th>
+            <span @click="sortColumn('percent')">
+              Процент <ArrowToggle v-bind:flag="sortOrder.percent === 'asc'" />
+            </span>
+          </th>
+        </tr>
+        <ApplicantsRow
+          v-for="applicant of filteredApplicants"
+          v-bind:applicant="applicant"
+          v-bind:key="applicant.id"
+        />
+      </table>
+    </div>
   </div>
 </template>
 
@@ -201,6 +203,26 @@ export default {
 
   &:-ms-input-placeholder {
     color: $color-medium;
+  }
+}
+
+.tableBox {
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    width: 24px;
+    height: 8px;
+    background-color: $color-blue-super-light;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-blue-light;
+    border-radius: 9em;
+    box-shadow: inset 1px 1px 10px $color-blue-light;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #253861;
   }
 }
 

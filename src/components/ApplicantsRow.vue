@@ -70,8 +70,10 @@ td {
   width: auto;
   border: 1px solid $color-blue-light;
   text-align: left;
-  padding: 24px 20px;
+  padding: 10px 20px;
   background-color: $color-white;
+  border-bottom-width: 4px;
+  border-bottom-color: $color-blue-super-light;
   @include normalText($color-black);
 }
 

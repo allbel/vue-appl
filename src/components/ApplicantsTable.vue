@@ -8,37 +8,37 @@
         <tr>
           <th>
             <span @click="sortColumn('name')">
-              ФИО <ArrowToggle v-bind:flag="sortOrder.name === 'asc'" />
+              ФИО <ArrowToggle v-if="sortOrder.name !== 'none'" v-bind:flag="sortOrder.name === 'asc'" />
             </span>
           </th>
           <th>
             <span @click="sortColumn('date')">
-              Дата подачи заявления <ArrowToggle v-bind:flag="sortOrder.date === 'asc'" />
+              Дата подачи заявления <ArrowToggle v-if="sortOrder.date !== 'none'" v-bind:flag="sortOrder.date === 'asc'" />
             </span>
           </th>
           <th>
             <span @click="sortColumn('rus')">
-              Балл по русскому <ArrowToggle v-bind:flag="sortOrder.rus === 'asc'" />
+              Балл по русскому <ArrowToggle v-if="sortOrder.rus !== 'none'" v-bind:flag="sortOrder.rus === 'asc'" />
             </span>
           </th>
           <th>
             <span @click="sortColumn('math')">
-              Балл по математике <ArrowToggle v-bind:flag="sortOrder.math === 'asc'" />
+              Балл по математике <ArrowToggle v-if="sortOrder.math !== 'none'" v-bind:flag="sortOrder.math === 'asc'" />
             </span>
           </th>
           <th>
             <span @click="sortColumn('inf')">
-              Балл по информатике <ArrowToggle v-bind:flag="sortOrder.inf === 'asc'" />
+              Балл по информатике <ArrowToggle v-if="sortOrder.inf !== 'none'" v-bind:flag="sortOrder.inf === 'asc'" />
             </span>
           </th>
           <th>
             <span @click="sortColumn('sum')">
-              Суммарный балл <ArrowToggle v-bind:flag="sortOrder.sum === 'asc'" />
+              Суммарный балл <ArrowToggle v-if="sortOrder.sum !== 'none'" v-bind:flag="sortOrder.sum === 'asc'" />
             </span>
           </th>
           <th>
             <span @click="sortColumn('percent')">
-              Процент <ArrowToggle v-bind:flag="sortOrder.percent === 'asc'" />
+              Процент <ArrowToggle v-if="sortOrder.percent !== 'none'" v-bind:flag="sortOrder.percent === 'asc'" />
             </span>
           </th>
         </tr>
@@ -73,12 +73,12 @@ export default {
       searchText: '',
       sortOrder: {
         name: 'asc',
-        date: 'asc',
-        rus: 'asc',
-        math: 'asc',
-        inf: 'asc',
-        sum: 'asc',
-        percent: 'asc',
+        date: 'none',
+        rus: 'none',
+        math: 'none',
+        inf: 'none',
+        sum: 'none',
+        percent: 'none',
       }
     };
   },
@@ -115,7 +115,7 @@ export default {
       }).sort((a, b) => {
         const column = Object.keys(this.sortOrder).find(key => this.sortOrder[key] !== 'none');
         const order = this.sortOrder[column];
-        const compare = a[column].localeCompare(b[column]);
+        const compare = typeof a[column] === 'string' ? a[column].localeCompare(b[column]) : a[column] - b[column];
         return order === 'asc' ? compare : -compare;
       });
     }
@@ -147,11 +147,11 @@ export default {
         this.sortOrder[column] = 'asc';
       }
 
-      // Object.keys(this.sortOrder).forEach(key => {
-      //   if (key !== column) {
-      //     this.sortOrder[key] = 'none';
-      //   }
-      // });
+      Object.keys(this.sortOrder).forEach(key => {
+        if (key !== column) {
+          this.sortOrder[key] = 'none';
+        }
+      });
     }
   },
 }

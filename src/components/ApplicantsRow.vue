@@ -26,7 +26,7 @@
     </td>
     <td>
       <span>Процент</span>
-      <span>
+      <span class="percentBox">
         <div class="circle">
           <svg>
             <circle cx="20" cy="20" r="18"></circle>
@@ -37,6 +37,15 @@
           </svg>
           <div class="number">
             {{applicant.percent + '%'}}
+          </div>
+        </div>
+        <div class="percentMobile">
+          <div class="value">{{applicant.percent + '%'}}</div>
+          <div class="progress">
+            <div class="progressLinear"
+                 :style="{ width: applicant.percent + '%' }"
+                 :class="getProgressClass(applicant.color)"
+            ></div>
           </div>
         </div>
       </span>
@@ -70,6 +79,13 @@ export default {
         'greenCircle': color === 'green',
         'redCircle': color === 'red',
         'orangeCircle': color === 'orange'
+      };
+    },
+    getProgressClass(color) {
+      return {
+        'greenProgress': color === 'green',
+        'redProgress': color === 'red',
+        'orangeProgress': color === 'orange'
       };
     },
   },
@@ -146,11 +162,27 @@ td:last-child {
   stroke: $color-orange;
 }
 
+.greenProgress {
+  background-color: $color-green;
+}
+
+.redProgress {
+  background-color: $color-red;
+}
+
+.orangeProgress {
+  background-color: $color-orange;
+}
+
 .circle {
   display: inline-block;
   width: 40px;
   height: 40px;
   position: relative;
+
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 
   & svg {
     box-sizing: border-box;
@@ -195,6 +227,31 @@ td:last-child {
     align-items: center;
     @include normalText($color-black);
   }
+}
+
+.percentMobile {
+  display: none;
+
+  @media screen and (max-width: 767px) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .progress {
+    height: 4px;
+    border-radius: 2px;
+    background-color: $color-blue-light;
+    flex-grow: 1;
+
+    .progressLinear {
+      height: 4px;
+      border-radius: 2px;
+      //background-color: $color-orange;
+      //width: 50%;
+    }
+  }
+
 }
 
 </style>

@@ -4,8 +4,41 @@
       <input type="text" v-model="searchText" @input="filterByName" class="searchField" placeholder="Поиск">
     </div>
     <div class="tableBox">
+      <div class="mobile">
+        <div class="select" :class="{ active: isDropdownOpen }" @click="toggleDropdown">
+          <div class="current" v-if="selectedOptionTitle || isDropdownOpen">
+            <div class="sort">Сортировать по</div>
+            <div class="value">{{selectedOptionTitle ? selectedOptionTitle : 'Сортировать по'}}</div>
+            <div class="list" v-if="isDropdownOpen">
+              <div @click="selectOption('ФИО', 'name')">ФИО</div>
+              <div @click="selectOption('Дата подачи заявления', 'date')">Дата подачи заявления</div>
+              <div @click="selectOption('Балл по русскому', 'rus')">Балл по русскому</div>
+              <div @click="selectOption('Балл по математике', 'math')">Балл по математике</div>
+              <div @click="selectOption('Балл по информатике', 'inf')">Балл по информатике</div>
+              <div @click="selectOption('Суммарный балл', 'sum')">Суммарный балл</div>
+              <div @click="selectOption('Процент', 'percent')">Процент</div>
+            </div>
+          </div>
+          <div class="default" v-else>Сортировать по</div>
+          <ArrowDropdownToggle v-bind:flag="isDropdownOpen"/>
+        </div>
+        <span class="arrowsMobileToggle">
+          <span class="arrowMobile" @click="sortMobileColumn(selectedOptionColumn)" :class="{ desc: sortOrderMobile === 'asc' }">
+            <svg width="7" height="8" viewBox="0 0 7 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.5 8L7 4L4.76995e-08 4L3.5 8Z" class="colorFill" :class="{ colorFillActive: sortOrderMobile === 'asc' }" />
+              <path d="M3.5 0L3.5 4" class="colorStroke" stroke-width="2" :class="{ colorStrokeActive: sortOrderMobile === 'asc' }" />
+            </svg>
+          </span>
+          <span class="arrowMobile" @click="sortMobileColumn(selectedOptionColumn)" :class="{ desc: sortOrderMobile === 'desc' }">
+            <svg width="7" height="8" viewBox="0 0 7 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.5 -1.5299e-07L7 4L-1.74846e-07 4L3.5 -1.5299e-07Z" class="colorFill" :class="{ colorFillActive: sortOrderMobile === 'desc' }" />
+              <path d="M3.5 8L3.5 4"  class="colorStroke" stroke-width="2"  :class="{ colorStrokeActive: sortOrderMobile === 'desc' }" />
+            </svg>
+          </span>
+        </span>
+      </div>
       <table class="table">
-        <tr>
+        <tr class="rowHead">
           <th>
             <span @click="sortColumn('name')">
               ФИО <ArrowToggle v-if="sortOrder.name !== 'none'" v-bind:flag="sortOrder.name === 'asc'" />
@@ -55,6 +88,7 @@
 <script>
 import ApplicantsRow from '@/components/ApplicantsRow.vue'
 import ArrowToggle from '@/components/ArrowToggle.vue'
+import ArrowDropdownToggle from "@/components/ArrowDropdownToggle.vue";
 
 export default {
   name: 'ApplicantsTable',
@@ -65,6 +99,7 @@ export default {
     }
   },
   components: {
+    ArrowDropdownToggle,
     ApplicantsRow,
     ArrowToggle,
   },
@@ -79,7 +114,11 @@ export default {
         inf: 'none',
         sum: 'none',
         percent: 'none',
-      }
+      },
+      selectedOptionTitle: '',
+      selectedOptionColumn: '',
+      isDropdownOpen: false,
+      sortOrderMobile: ''
     };
   },
   computed: {
@@ -135,6 +174,7 @@ export default {
           }
         });
         this.sortOrder[column] = 'desc';
+        this.sortOrderMobile = 'desc';
       } else {
         this.filteredApplicants.sort((a, b) => {
           if (typeof a[column] === 'string') {
@@ -145,6 +185,7 @@ export default {
           }
         });
         this.sortOrder[column] = 'asc';
+        this.sortOrderMobile = 'asc';
       }
 
       Object.keys(this.sortOrder).forEach(key => {
@@ -152,7 +193,21 @@ export default {
           this.sortOrder[key] = 'none';
         }
       });
-    }
+    },
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    },
+    selectOption(title, column) {
+      this.selectedOptionTitle = title;
+      this.selectedOptionColumn = column;
+      this.isDropdownOpen = true;
+      this.sortOrderMobile = '';
+    },
+    sortMobileColumn(column) {
+      if (this.selectedOptionColumn) {
+        this.sortColumn(column);
+      }
+    },
   },
 }
 </script>
@@ -244,6 +299,12 @@ tr {
   }
 }
 
+.rowHead {
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+}
+
 th {
   padding: 10px 20px;
   white-space: nowrap;
@@ -263,4 +324,109 @@ th {
   }
 }
 
+.mobile {
+  display: none;
+
+  @media screen and (max-width: 767px) {
+    display: flex;
+    gap: 12px;
+  }
+
+  .select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+    height: 44px;
+    background-color: $color-white;
+    border: 1px solid $color-blue-light;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 8px;
+    flex-grow: 1;
+
+    .current {
+
+      .sort {
+        @include captionMiniText($color-medium);
+      }
+
+      .value {
+        @include normalText($color-black);
+      }
+
+      .list {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: calc(100% + 4px);
+        border: 1px solid $color-blue-light;
+        border-radius: 4px;
+        z-index: 1;
+        @include normalText($color-black);
+
+        div {
+          padding: 10px 12px;
+          background-color: $color-white;
+          border-bottom: 1px solid $color-blue-light;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &:hover {
+            background-color: $color-blue-super-light;
+          }
+        }
+      }
+    }
+
+    .default {
+      @include normalText($color-medium);
+    }
+  }
+
+  .active {
+    border-color: $color-blue;
+  }
+
+}
+
+
+.arrowsMobileToggle {
+  display: flex;
+  gap: 4px;
+
+  .arrowMobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid $color-blue;
+    border-radius: 2px;
+    cursor: pointer;
+
+    .colorFill {
+      fill: $color-blue;
+    }
+
+    .colorStroke {
+      stroke: $color-blue;
+    }
+
+    .colorFillActive {
+      fill: $color-white;
+    }
+
+    .colorStrokeActive {
+      stroke: $color-white;
+    }
+  }
+
+  .desc {
+    background-color: $color-blue;
+  }
+}
 </style>

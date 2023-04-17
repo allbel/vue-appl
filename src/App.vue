@@ -6,24 +6,23 @@
 </template>
 
 <script>
-import HeaderTop from '@/components/HeaderTop.vue'
-import ContentBox from '@/components/ContentBox.vue'
+import HeaderTop from "@/components/HeaderTop.vue";
+import ContentBox from "@/components/ContentBox.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     HeaderTop,
     ContentBox,
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss">
 @import "styles/style";
 
 #app {
-  font-family: 'Proxima Nova', Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Proxima Nova", Avenir, Helvetica, Arial, sans-serif;
   color: $color-black;
 }
-
 </style>

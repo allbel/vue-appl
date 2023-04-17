@@ -2,27 +2,27 @@
   <tr>
     <td>
       <span>ФИО</span>
-      <span>{{applicant.name}}</span>
+      <span>{{ applicant.name }}</span>
     </td>
     <td>
       <span>Дата подачи заявления</span>
-      <span>{{applicant.date.split('-').reverse().join('.')}}</span>
+      <span>{{ applicant.date.split("-").reverse().join(".") }}</span>
     </td>
     <td :class="getTdClass(applicant.color)">
       <span>Балл по русскому</span>
-      <span>{{applicant.rus}}</span>
+      <span>{{ applicant.rus }}</span>
     </td>
     <td :class="getTdClass(applicant.color)">
       <span>Балл по математике</span>
-      <span>{{applicant.math}}</span>
+      <span>{{ applicant.math }}</span>
     </td>
     <td :class="getTdClass(applicant.color)">
       <span>Балл по информатике</span>
-      <span>{{applicant.inf}}</span>
+      <span>{{ applicant.inf }}</span>
     </td>
     <td :class="getTdClass(applicant.color)">
       <span>Суммарный балл</span>
-      <span>{{applicant.sum}}</span>
+      <span>{{ applicant.sum }}</span>
     </td>
     <td>
       <span>Процент</span>
@@ -30,21 +30,28 @@
         <div class="circle">
           <svg>
             <circle cx="20" cy="20" r="18"></circle>
-            <circle cx="20" cy="20" r="18"
-                    :style="{ strokeDashoffset: 'calc(114 - (114 * ' + applicant.percent + ') / 100)' }"
-                    :class="getCircleClass(applicant.color)"
+            <circle
+              cx="20"
+              cy="20"
+              r="18"
+              :style="{
+                strokeDashoffset:
+                  'calc(114 - (114 * ' + applicant.percent + ') / 100)',
+              }"
+              :class="getCircleClass(applicant.color)"
             ></circle>
           </svg>
           <div class="number">
-            {{applicant.percent + '%'}}
+            {{ applicant.percent + "%" }}
           </div>
         </div>
         <div class="percentMobile">
-          <div class="value">{{applicant.percent + '%'}}</div>
+          <div class="value">{{ applicant.percent + "%" }}</div>
           <div class="progress">
-            <div class="progressLinear"
-                 :style="{ width: applicant.percent + '%' }"
-                 :class="getProgressClass(applicant.color)"
+            <div
+              class="progressLinear"
+              :style="{ width: applicant.percent + '%' }"
+              :class="getProgressClass(applicant.color)"
             ></div>
           </div>
         </div>
@@ -54,14 +61,13 @@
 </template>
 
 <script>
-
 export default {
-  name: 'ApplicantsRow',
+  name: "ApplicantsRow",
   props: {
     applicant: {
       type: Object,
       required: true,
-    }
+    },
   },
   components: {
     // ApplicantsCell,
@@ -69,27 +75,27 @@ export default {
   methods: {
     getTdClass(color) {
       return {
-        'green': color === 'green',
-        'red': color === 'red',
-        'orange': color === 'orange'
+        green: color === "green",
+        red: color === "red",
+        orange: color === "orange",
       };
     },
     getCircleClass(color) {
       return {
-        'greenCircle': color === 'green',
-        'redCircle': color === 'red',
-        'orangeCircle': color === 'orange'
+        greenCircle: color === "green",
+        redCircle: color === "red",
+        orangeCircle: color === "orange",
       };
     },
     getProgressClass(color) {
       return {
-        'greenProgress': color === 'green',
-        'redProgress': color === 'red',
-        'orangeProgress': color === 'orange'
+        greenProgress: color === "green",
+        redProgress: color === "red",
+        orangeProgress: color === "orange",
       };
     },
   },
-}
+};
 </script>
 
 <style lang="scss">
@@ -251,7 +257,5 @@ td:last-child {
       //width: 50%;
     }
   }
-
 }
-
 </style>

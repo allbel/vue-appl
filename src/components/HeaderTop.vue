@@ -2,24 +2,93 @@
   <header class="top">
     <div class="logo">
       <div class="logo__icon">
-        <svg width="41" height="34" viewBox="0 0 41 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1.5" y="2" width="12" height="6" stroke="#006CFE" stroke-width="3"/>
-          <rect x="14.5" y="2" width="12" height="6" stroke="#006CFE" stroke-width="3"/>
-          <rect x="27.5" y="2" width="12" height="6" stroke="#006CFE" stroke-width="3"/>
-          <rect x="1.5" y="14" width="12" height="6" stroke="#006CFE" stroke-width="3"/>
-          <rect x="14.5" y="14" width="12" height="6" stroke="#006CFE" stroke-width="3"/>
-          <rect x="27.5" y="14" width="12" height="6" stroke="#006CFE" stroke-width="3"/>
-          <rect x="1.5" y="26" width="12" height="6" stroke="#006CFE" stroke-width="3"/>
-          <rect x="14.5" y="26" width="12" height="6" stroke="#006CFE" stroke-width="3"/>
-          <rect x="27.5" y="26" width="12" height="6" stroke="#006CFE" stroke-width="3"/>
+        <svg
+          width="41"
+          height="34"
+          viewBox="0 0 41 34"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            x="1.5"
+            y="2"
+            width="12"
+            height="6"
+            stroke="#006CFE"
+            stroke-width="3"
+          />
+          <rect
+            x="14.5"
+            y="2"
+            width="12"
+            height="6"
+            stroke="#006CFE"
+            stroke-width="3"
+          />
+          <rect
+            x="27.5"
+            y="2"
+            width="12"
+            height="6"
+            stroke="#006CFE"
+            stroke-width="3"
+          />
+          <rect
+            x="1.5"
+            y="14"
+            width="12"
+            height="6"
+            stroke="#006CFE"
+            stroke-width="3"
+          />
+          <rect
+            x="14.5"
+            y="14"
+            width="12"
+            height="6"
+            stroke="#006CFE"
+            stroke-width="3"
+          />
+          <rect
+            x="27.5"
+            y="14"
+            width="12"
+            height="6"
+            stroke="#006CFE"
+            stroke-width="3"
+          />
+          <rect
+            x="1.5"
+            y="26"
+            width="12"
+            height="6"
+            stroke="#006CFE"
+            stroke-width="3"
+          />
+          <rect
+            x="14.5"
+            y="26"
+            width="12"
+            height="6"
+            stroke="#006CFE"
+            stroke-width="3"
+          />
+          <rect
+            x="27.5"
+            y="26"
+            width="12"
+            height="6"
+            stroke="#006CFE"
+            stroke-width="3"
+          />
         </svg>
       </div>
-      <div class="logo__text">Система<br>таблиц</div>
+      <div class="logo__text">Система<br />таблиц</div>
     </div>
     <div class="user">
-      <div class="user__text">Светлана<br>Сотрудник</div>
+      <div class="user__text">Светлана<br />Сотрудник</div>
       <div class="user__img">
-        <img alt="Светлана" src="../assets/user.png">
+        <img alt="Светлана" src="../assets/user.png" />
       </div>
     </div>
   </header>
@@ -27,8 +96,8 @@
 
 <script>
 export default {
-  name: 'HeaderTop',
-}
+  name: "HeaderTop",
+};
 </script>
 
 <style lang="scss">
@@ -82,5 +151,4 @@ export default {
     }
   }
 }
-
 </style>

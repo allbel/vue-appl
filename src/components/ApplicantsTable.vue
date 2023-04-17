@@ -1,38 +1,98 @@
 <template>
   <div>
     <div class="searchBox">
-      <input type="text" v-model="searchText" @input="filterByName" class="searchField" placeholder="Поиск">
+      <input
+        type="text"
+        v-model="searchText"
+        @input="filterByName"
+        class="searchField"
+        placeholder="Поиск"
+      />
     </div>
     <div class="tableBox">
       <div class="mobile">
-        <div class="select" :class="{ active: isDropdownOpen }" @click="toggleDropdown">
+        <div
+          class="select"
+          :class="{ active: isDropdownOpen }"
+          @click="toggleDropdown"
+        >
           <div class="current" v-if="selectedOptionTitle || isDropdownOpen">
             <div class="sort">Сортировать по</div>
-            <div class="value">{{selectedOptionTitle ? selectedOptionTitle : 'Сортировать по'}}</div>
+            <div class="value">
+              {{ selectedOptionTitle ? selectedOptionTitle : "Сортировать по" }}
+            </div>
             <div class="list" v-if="isDropdownOpen">
               <div @click="selectOption('ФИО', 'name')">ФИО</div>
-              <div @click="selectOption('Дата подачи заявления', 'date')">Дата подачи заявления</div>
-              <div @click="selectOption('Балл по русскому', 'rus')">Балл по русскому</div>
-              <div @click="selectOption('Балл по математике', 'math')">Балл по математике</div>
-              <div @click="selectOption('Балл по информатике', 'inf')">Балл по информатике</div>
-              <div @click="selectOption('Суммарный балл', 'sum')">Суммарный балл</div>
+              <div @click="selectOption('Дата подачи заявления', 'date')">
+                Дата подачи заявления
+              </div>
+              <div @click="selectOption('Балл по русскому', 'rus')">
+                Балл по русскому
+              </div>
+              <div @click="selectOption('Балл по математике', 'math')">
+                Балл по математике
+              </div>
+              <div @click="selectOption('Балл по информатике', 'inf')">
+                Балл по информатике
+              </div>
+              <div @click="selectOption('Суммарный балл', 'sum')">
+                Суммарный балл
+              </div>
               <div @click="selectOption('Процент', 'percent')">Процент</div>
             </div>
           </div>
           <div class="default" v-else>Сортировать по</div>
-          <ArrowDropdownToggle v-bind:flag="isDropdownOpen"/>
+          <ArrowDropdownToggle v-bind:flag="isDropdownOpen" />
         </div>
         <span class="arrowsMobileToggle">
-          <span class="arrowMobile" @click="sortMobileColumn(selectedOptionColumn)" :class="{ desc: sortOrderMobile === 'asc' }">
-            <svg width="7" height="8" viewBox="0 0 7 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3.5 8L7 4L4.76995e-08 4L3.5 8Z" class="colorFill" :class="{ colorFillActive: sortOrderMobile === 'asc' }" />
-              <path d="M3.5 0L3.5 4" class="colorStroke" stroke-width="2" :class="{ colorStrokeActive: sortOrderMobile === 'asc' }" />
+          <span
+            class="arrowMobile"
+            @click="sortMobileColumn(selectedOptionColumn)"
+            :class="{ desc: sortOrderMobile === 'asc' }"
+          >
+            <svg
+              width="7"
+              height="8"
+              viewBox="0 0 7 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.5 8L7 4L4.76995e-08 4L3.5 8Z"
+                class="colorFill"
+                :class="{ colorFillActive: sortOrderMobile === 'asc' }"
+              />
+              <path
+                d="M3.5 0L3.5 4"
+                class="colorStroke"
+                stroke-width="2"
+                :class="{ colorStrokeActive: sortOrderMobile === 'asc' }"
+              />
             </svg>
           </span>
-          <span class="arrowMobile" @click="sortMobileColumn(selectedOptionColumn)" :class="{ desc: sortOrderMobile === 'desc' }">
-            <svg width="7" height="8" viewBox="0 0 7 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3.5 -1.5299e-07L7 4L-1.74846e-07 4L3.5 -1.5299e-07Z" class="colorFill" :class="{ colorFillActive: sortOrderMobile === 'desc' }" />
-              <path d="M3.5 8L3.5 4"  class="colorStroke" stroke-width="2"  :class="{ colorStrokeActive: sortOrderMobile === 'desc' }" />
+          <span
+            class="arrowMobile"
+            @click="sortMobileColumn(selectedOptionColumn)"
+            :class="{ desc: sortOrderMobile === 'desc' }"
+          >
+            <svg
+              width="7"
+              height="8"
+              viewBox="0 0 7 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.5 -1.5299e-07L7 4L-1.74846e-07 4L3.5 -1.5299e-07Z"
+                class="colorFill"
+                :class="{ colorFillActive: sortOrderMobile === 'desc' }"
+              />
+              <path
+                d="M3.5 8L3.5 4"
+                class="colorStroke"
+                stroke-width="2"
+                :class="{ colorStrokeActive: sortOrderMobile === 'desc' }"
+              />
             </svg>
           </span>
         </span>
@@ -41,37 +101,65 @@
         <tr class="rowHead">
           <th>
             <span @click="sortColumn('name')">
-              ФИО <ArrowToggle v-if="sortOrder.name !== 'none'" v-bind:flag="sortOrder.name === 'asc'" />
+              ФИО
+              <ArrowToggle
+                v-if="sortOrder.name !== 'none'"
+                v-bind:flag="sortOrder.name === 'asc'"
+              />
             </span>
           </th>
           <th>
             <span @click="sortColumn('date')">
-              Дата подачи заявления <ArrowToggle v-if="sortOrder.date !== 'none'" v-bind:flag="sortOrder.date === 'asc'" />
+              Дата подачи заявления
+              <ArrowToggle
+                v-if="sortOrder.date !== 'none'"
+                v-bind:flag="sortOrder.date === 'asc'"
+              />
             </span>
           </th>
           <th>
             <span @click="sortColumn('rus')">
-              Балл по русскому <ArrowToggle v-if="sortOrder.rus !== 'none'" v-bind:flag="sortOrder.rus === 'asc'" />
+              Балл по русскому
+              <ArrowToggle
+                v-if="sortOrder.rus !== 'none'"
+                v-bind:flag="sortOrder.rus === 'asc'"
+              />
             </span>
           </th>
           <th>
             <span @click="sortColumn('math')">
-              Балл по математике <ArrowToggle v-if="sortOrder.math !== 'none'" v-bind:flag="sortOrder.math === 'asc'" />
+              Балл по математике
+              <ArrowToggle
+                v-if="sortOrder.math !== 'none'"
+                v-bind:flag="sortOrder.math === 'asc'"
+              />
             </span>
           </th>
           <th>
             <span @click="sortColumn('inf')">
-              Балл по информатике <ArrowToggle v-if="sortOrder.inf !== 'none'" v-bind:flag="sortOrder.inf === 'asc'" />
+              Балл по информатике
+              <ArrowToggle
+                v-if="sortOrder.inf !== 'none'"
+                v-bind:flag="sortOrder.inf === 'asc'"
+              />
             </span>
           </th>
           <th>
             <span @click="sortColumn('sum')">
-              Суммарный балл <ArrowToggle v-if="sortOrder.sum !== 'none'" v-bind:flag="sortOrder.sum === 'asc'" />
+              Суммарный балл
+              <ArrowToggle
+                v-if="sortOrder.sum !== 'none'"
+                v-bind:flag="sortOrder.sum === 'asc'"
+              />
             </span>
           </th>
           <th>
             <span @click="sortColumn('percent')">
-              Процент <ArrowToggle v-if="sortOrder.percent !== 'none'" v-bind:flag="sortOrder.percent === 'asc'" />
+              Процент
+              <ArrowToggle
+                v-if="sortOrder.percent !== 'none'"
+                v-bind:flag="sortOrder.percent === 'asc'"
+              />
             </span>
           </th>
         </tr>
@@ -86,17 +174,17 @@
 </template>
 
 <script>
-import ApplicantsRow from '@/components/ApplicantsRow.vue'
-import ArrowToggle from '@/components/ArrowToggle.vue'
+import ApplicantsRow from "@/components/ApplicantsRow.vue";
+import ArrowToggle from "@/components/ArrowToggle.vue";
 import ArrowDropdownToggle from "@/components/ArrowDropdownToggle.vue";
 
 export default {
-  name: 'ApplicantsTable',
+  name: "ApplicantsTable",
   props: {
     applicants: {
       type: Array,
       required: true,
-    }
+    },
   },
   components: {
     ArrowDropdownToggle,
@@ -105,92 +193,101 @@ export default {
   },
   data() {
     return {
-      searchText: '',
+      searchText: "",
       sortOrder: {
-        name: 'asc',
-        date: 'none',
-        rus: 'none',
-        math: 'none',
-        inf: 'none',
-        sum: 'none',
-        percent: 'none',
+        name: "asc",
+        date: "none",
+        rus: "none",
+        math: "none",
+        inf: "none",
+        sum: "none",
+        percent: "none",
       },
-      selectedOptionTitle: '',
-      selectedOptionColumn: '',
+      selectedOptionTitle: "",
+      selectedOptionColumn: "",
       isDropdownOpen: false,
-      sortOrderMobile: ''
+      sortOrderMobile: "",
     };
   },
   computed: {
     filteredApplicants() {
-      const searchKeywords = this.searchText.toLowerCase().split(' ');
+      const searchKeywords = this.searchText.toLowerCase().split(" ");
 
-      return this.applicants.filter(applicant => {
-        applicant.sum = 0;
-        applicant.subjects.forEach(item => {
-          if (item.subject === "Русский язык") {
-            applicant.rus = Number(item.score);
+      return this.applicants
+        .filter((applicant) => {
+          applicant.sum = 0;
+          applicant.subjects.forEach((item) => {
+            if (item.subject === "Русский язык") {
+              applicant.rus = Number(item.score);
+            }
+            if (item.subject === "Математика") {
+              applicant.math = Number(item.score);
+            }
+            if (item.subject === "Информатика") {
+              applicant.inf = Number(item.score);
+            }
+            applicant.sum += Number(item.score);
+          });
+          applicant.percent = Math.round((100 * applicant.sum) / 15);
+
+          applicant.color = "white";
+          if (applicant.percent >= 50 && applicant.percent < 75) {
+            applicant.color = "orange";
+          } else if (applicant.percent >= 75) {
+            applicant.color = "green";
+          } else {
+            applicant.color = "red";
           }
-          if (item.subject === "Математика") {
-            applicant.math = Number(item.score);
-          }
-          if (item.subject === "Информатика") {
-            applicant.inf = Number(item.score);
-          }
-          applicant.sum += Number(item.score);
+
+          return searchKeywords.some((keyword) =>
+            applicant.name.toLowerCase().includes(keyword)
+          );
+        })
+        .sort((a, b) => {
+          const column = Object.keys(this.sortOrder).find(
+            (key) => this.sortOrder[key] !== "none"
+          );
+          const order = this.sortOrder[column];
+          const compare =
+            typeof a[column] === "string"
+              ? a[column].localeCompare(b[column])
+              : a[column] - b[column];
+          return order === "asc" ? compare : -compare;
         });
-        applicant.percent = Math.round(100 * applicant.sum / 15);
-
-        applicant.color = 'white';
-        if (applicant.percent >= 50 && applicant.percent < 75) {
-          applicant.color = 'orange';
-        } else if (applicant.percent >= 75) {
-          applicant.color = 'green';
-        } else {
-          applicant.color = 'red';
-        }
-
-        return searchKeywords.some(keyword => applicant.name.toLowerCase().includes(keyword));
-      }).sort((a, b) => {
-        const column = Object.keys(this.sortOrder).find(key => this.sortOrder[key] !== 'none');
-        const order = this.sortOrder[column];
-        const compare = typeof a[column] === 'string' ? a[column].localeCompare(b[column]) : a[column] - b[column];
-        return order === 'asc' ? compare : -compare;
-      });
-    }
+    },
   },
   methods: {
     filterByName() {
       this.$forceUpdate();
     },
     sortColumn(column) {
-      if (this.sortOrder[column] === 'asc') {
+      if (this.sortOrder[column] === "asc") {
         this.filteredApplicants.sort((a, b) => {
-          if (typeof a[column] === 'string') {
+          if (typeof a[column] === "string") {
             return a[column].localeCompare(b[column]);
           }
-          if (typeof a[column] === 'number') {
+          if (typeof a[column] === "number") {
             return a[column] - b[column];
           }
         });
-        this.sortOrder[column] = 'desc';
-        this.sortOrderMobile = 'desc';
+        this.sortOrder[column] = "desc";
+        this.sortOrderMobile = "desc";
       } else {
         this.filteredApplicants.sort((a, b) => {
-          if (typeof a[column] === 'string') {
+          if (typeof a[column] === "string") {
             return b[column].localeCompare(a[column]);
           }
-          if (typeof a[column] === 'number') {
+          if (typeof a[column] === "number") {
             return b[column] - a[column];
           }
         });
-        this.sortOrder[column] = 'asc';
-        this.sortOrderMobile = 'asc';
+        this.sortOrder[column] = "asc";
+        this.sortOrderMobile = "asc";
       }
 
-      Object.keys(this.sortOrder).forEach(key => {
+      Object.keys(this.sortOrder).forEach((key) => {
         if (key !== column) {
-          this.sortOrder[key] = 'none';
+          this.sortOrder[key] = "none";
         }
       });
     },
@@ -201,7 +298,7 @@ export default {
       this.selectedOptionTitle = title;
       this.selectedOptionColumn = column;
       this.isDropdownOpen = true;
-      this.sortOrderMobile = '';
+      this.sortOrderMobile = "";
     },
     sortMobileColumn(column) {
       if (this.selectedOptionColumn) {
@@ -209,7 +306,7 @@ export default {
       }
     },
   },
-}
+};
 </script>
 
 <style lang="scss">
@@ -347,7 +444,6 @@ th {
     flex-grow: 1;
 
     .current {
-
       .sort {
         @include captionMiniText($color-medium);
       }
@@ -390,9 +486,7 @@ th {
   .active {
     border-color: $color-blue;
   }
-
 }
-
 
 .arrowsMobileToggle {
   display: flex;
